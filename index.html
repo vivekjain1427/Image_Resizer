@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resize and Compress</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Image Resize and Compress</h2>
+        <div  class="ImageUploading">  
+            <input type="file" accept="image/*" hidden>
+            <!-- upload-box -->
+            <img src="./uploading.png" alt="">
+            <p>Browse File to Upload</p>
+        </div>
+        <div class="Container">
+            <!-- content -->
+            <div class="Row Sizes">
+                <div class="Column Width">
+                    <label>Width</label>
+                    <input type="number">
+                </div>
+                <div class="Column Height">
+                    <label>Height</label>
+                    <input type="number">
+                </div>
+            </div>
+            <div class="Row CheckBoxes">
+                <div class="Column Ratio">
+                    <input type="checkbox" id="Ratio">
+                    <label for="Ratio">Lock Aspect Ratio</label>
+                </div>
+                <div class="Column Quality">
+                    <input type="checkbox" id="Quality">
+                    <label for="Quality">Compress</label>
+                </div>
+            </div>
+            <button class="DownloadImage">Download Image</button>
+        </div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
