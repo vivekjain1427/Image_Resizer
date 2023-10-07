@@ -70,14 +70,15 @@ body{
     display: flex;
     justify-content:space-between;   
 }
- 
-.Container .Row .Column{
-    width: calc(100% / 2 -15px);
-}
+
 
 .Row .Column label{
     font-size: 1.06rem;
 } 
+
+.Sizes .Height, .Sizes .Width {
+    width: 45%;
+}
 
 .Sizes .Column input{
     width: 100%;
@@ -100,9 +101,16 @@ body{
     margin-top: 20px;
 }
 
+.CheckBoxes {
+    display: flex;
+    justify-content: space-between;
+}
+
 .CheckBoxes .Column {
     display: flex;
     align-items: center;
+    justify-content: start;
+    width: 45%;
 }
 
 .CheckBoxes .Column input{

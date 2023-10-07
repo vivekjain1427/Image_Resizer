@@ -34,24 +34,29 @@ heightInput.addEventListener("keyup", () =>{
     widthInput.value = Math.floor(Width);
 });
 
-const resizeAndDownload = ()=>{
+const resizeAndDownload = () =>{
+    const width = widthInput.value;
+    const height = heightInput.value;
+    const quality = qualityInput.value;
+    if(!width || !height){
+        alert("Please select an image first");
+        return;
+    };
     const canvas = document.createElement("canvas");
-    const a = document.createElement("a");
     const ctx = canvas.getContext("2d");
-    // if quality checkbox is checked, pass 0.7 to imgquality wlse pass 1.0
-    // 1.0 is 100% quality where 0.7 is 70% of total you can pass from 0.1-1.0
-    const imgQuality =qualityInput.checked ? 0.7:1.0;
-
-    canvas.width = widthInput.value;
-    canvas.height = heightInput.value;
-
-    // drawing user selected image onto the canvas
-    ctx.drawImage(previewImg, 0, 0, canvas.width, canvas.height);
-    
-    a.href = canvas.toDataURL("image/jpeg" , imgQuality);
-    a.download = new Date().getTime(); // passing current time as download value
-    a.click(); // clicking <a> element so the file download 
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(previewImg,0,0,width,height);
+    canvas.toBlob((blob) =>{
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.download = "image.png";
+        a.href = url;
+        a.click();
+    },"image/png",quality);
 }
+
+
 
 downloadbtn.addEventListener("click",resizeAndDownload)
 fileInput.addEventListener("change",loadFile);
