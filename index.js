@@ -5,7 +5,14 @@ widthInput = document.querySelector(".Width input");
 heightInput = document.querySelector(".Height input");
 ratioInput = document.querySelector(".Ratio input");
 downloadbtn = document.querySelector(".DownloadImage");
-qualityInput = document.querySelector(".Quality");  
+qualityInput = document.querySelector(".Quality"); 
+saturation = document.querySelector("#saturation");
+contrast = document.querySelector("#contrast");
+saturationOutput = document.querySelector("#saturation-output"); 
+contrastOutput = document.querySelector("#contrast-output");
+fliphorizontal = document.querySelector("#flip-horizontal");
+flipvertical = document.querySelector("#flip-vertical");
+rotateleft = document.querySelector("#rotate-left");
 
 let ogImageRatio;
 
@@ -23,13 +30,11 @@ const loadFile = (e) =>{
 }
 
 widthInput.addEventListener("keyup", () =>{
-    // getting height acc to the ratio checkbox status
     const height = ratioInput.checked ? widthInput.value / ogImageRatio : heightInput.value;
     heightInput.value = Math.floor(height);
 });
 
 heightInput.addEventListener("keyup", () =>{
-    // getting width acc to the ratio checkbox status
     const Width = ratioInput.checked ? heightInput.value * ogImageRatio : heightInput.value;
     widthInput.value = Math.floor(Width);
 });
@@ -46,6 +51,15 @@ const resizeAndDownload = () =>{
     const ctx = canvas.getContext("2d");
     canvas.width = width;
     canvas.height = height;
+    ctx.filter = `saturate(${saturation.value}%) contrast(${contrast.value}%)`;
+    if(previewImg.style.transform === "scaleX(-1)"){
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+    }
+    if(previewImg.style.transform === "scaleY(-1)"){
+        ctx.translate(0, canvas.height);
+        ctx.scale(1, -1);
+    }
     ctx.drawImage(previewImg,0,0,width,height);
     canvas.toBlob((blob) =>{
         const url = URL.createObjectURL(blob);
@@ -56,9 +70,44 @@ const resizeAndDownload = () =>{
     },"image/png",quality);
 }
 
-
-
 downloadbtn.addEventListener("click",resizeAndDownload)
 fileInput.addEventListener("change",loadFile);
 uploadBox.addEventListener("click", () => fileInput.click());
  
+saturation.addEventListener("input", () =>{
+    previewImg.style.filter = `saturate(${saturation.value}%) contrast(${contrast.value}%)`;
+    saturationOutput.innerHTML = saturation.value;
+});
+
+contrast.addEventListener("input", () =>{
+    previewImg.style.filter = `saturate(${saturation.value}%) contrast(${contrast.value}%)`;
+    contrastOutput.innerHTML = contrast.value;
+});
+
+
+window.addEventListener("beforeunload", () =>{
+    previewImg.src = "";
+    widthInput.value = "";
+    heightInput.value = "";
+    saturation.value = 100;
+    contrast.value = 100;
+    saturationOutput.innerHTML = 100;
+    contrastOutput.innerHTML = 100;
+    document.querySelector(".wrapper").classList.remove("active");
+});
+
+fliphorizontal.addEventListener("click", () =>{
+    if (previewImg.style.transform === "scaleX(-1)"){
+        previewImg.style.transform = "scaleX(1)";
+    } else {
+        previewImg.style.transform = "scaleX(-1)";
+    }
+});
+
+flipvertical.addEventListener("click", () =>{
+    if (previewImg.style.transform === "scaleY(-1)"){
+        previewImg.style.transform = "scaleY(1)";
+    } else {
+        previewImg.style.transform = "scaleY(-1)";
+    }
+});
